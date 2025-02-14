@@ -3,7 +3,7 @@
 #include <limits.h>
 #include "grafo.h"
 
-FILE *arq_entrada;
+FILE *arq_entrada; // Ponteiro para arquivo de entrada
 
 // Adaptação do Merge Sort visto em aula
 // para ordenar os nós em ordem não crescente em relação ao grau
@@ -46,6 +46,23 @@ void merge_sort(grafo *v, int p, int r)
         merge_sort(v, p, q);
         merge_sort(v, q + 1, r);
         merge(v, p, q, r);
+    }
+}
+
+void calcula_grau(grafo **G)
+{
+    grafo *auxg = *G;
+    while (auxg != NULL)
+    {
+        int grau = 0;
+        list *auxl = auxg->arestas;
+        while (auxl != NULL)
+        {
+            grau++;
+            auxl = auxl->next;
+        }
+        auxg->grau = grau;
+        auxg = auxg->next;
     }
 }
 
@@ -133,9 +150,6 @@ int coloracao(int nodes, grafo *vet)
 
     n_de_cores = contando_cores(cores, nodes);
 
-    for (int i = 0; i < nodes; i++)
-        free_graph(cores[i]);
-
     return n_de_cores;
 }
 
@@ -154,8 +168,8 @@ int main(void)
     // Verifica se o arquivo foi aberto corretamente
     if (arq_entrada == NULL)
     {
-        printf("Um erro ocorreu ao tentar abrir o arquivo 'grafo.txt'.\n");
-        exit(1); // Encerra o programa
+        printf("Um erro ocorreu ao tentar abrir o arquivo 'entrada.txt'.\n");
+        exit(-1); // Encerra o programa
     }
 
     fscanf(arq_entrada, "%d", &nodes); // Lê número de nós
@@ -187,6 +201,9 @@ int main(void)
     // Função para calcular o grau dos nós
     calcula_grau(&head);
 
+    printf("Grafo:\n\n");
+    print_graph(head); // Imprime grafo
+
     // Definindo um vetor auxiliar para armazenar os nós
     vet = (grafo *)malloc(nodes * sizeof(grafo)); // Aloca vetor de nós
 
@@ -197,6 +214,7 @@ int main(void)
     numero_de_cores = coloracao(nodes, vet);
 
     // Exibindo o número de cores utilizadas
+    printf("\nColoração:");
     printf("\nNúmero de cores utilizadas (aproximadamente): %d\n", numero_de_cores);
 
     free(vet);           // Libera memória alocada para vetor de nós

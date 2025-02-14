@@ -29,16 +29,16 @@ list *list_search(list *L, int k)
     return x;
 }
 
-// void print_list(list *L)
-// {
-//     list *x = L;
-//     while (x != NULL)
-//     {
-//         printf("%i -> ", x->key);
-//         x = x->next;
-//     }
-//     printf("\n");
-// }
+void print_list(list *L)
+{
+    list *x = L;
+    while (x != NULL)
+    {
+        printf("%i -> ", x->key);
+        x = x->next;
+    }
+    printf("\n");
+}
 
 list *allocate_object(int k)
 {
@@ -71,15 +71,15 @@ void node_insert(grafo **G, grafo *x)
     x->prev = NULL;
 }
 
-// void node_delete(grafo **G, grafo *x)
-// {
-//     if (x->prev != NULL)
-//         x->prev->next = x->next;
-//     else
-//         *G = x->next;
-//     if (x->next != NULL)
-//         x->next->prev = x->prev;
-// }
+void node_delete(grafo **G, grafo *x)
+{
+    if (x->prev != NULL)
+        x->prev->next = x->next;
+    else
+        *G = x->next;
+    if (x->next != NULL)
+        x->next->prev = x->prev;
+}
 
 grafo *allocate_graph(int k)
 {
@@ -117,23 +117,6 @@ void print_graph(grafo *g)
             auxl = auxl->next;
         }
         printf("\nGrau: %d.\n", auxg->grau);
-        auxg = auxg->next;
-    }
-}
-
-void calcula_grau(grafo **G)
-{
-    grafo *auxg = *G;
-    while (auxg != NULL)
-    {
-        int grau = 0;
-        list *auxl = auxg->arestas;
-        while (auxl != NULL)
-        {
-            grau++;
-            auxl = auxl->next;
-        }
-        auxg->grau = grau;
         auxg = auxg->next;
     }
 }
