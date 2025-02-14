@@ -30,6 +30,6 @@ grafo *allocate_graph(int k); // Aloca nó
 void free_graph(grafo *x); // Libera memória alocada para nó
 void print_graph(grafo *g); // Imprime grafo
 
-void calcula_grau(grafo **G); // Calcula grau dos nós
+void calcula_grau(grafo **G); // Função para calcular o grau dos nós
 
 #endif
