@@ -111,6 +111,8 @@ int main(void)
         i++;
     }
 
+    // Daqui em diante temos o algoritmo para a coloração do grafo
+
     merge_sort(vet, 0, nos - 1); // Ordena vetor de nós em ordem não crescente em relação ao grau
 
     printf("Vetor de nós ordenado por grau:\n");
@@ -124,13 +126,13 @@ int main(void)
         cores[i] = NULL;
 
     node_insert(&cores[0], allocate_graph(vet[0].key)); // Insere primeiro nó no vetor de cores
-    
+
     int j = 1;
     while (j < nos)
     {
         aux2 = vet[j].arestas;
         int r;
-        
+
         int i = 0;
         while (i < nos)
         {
@@ -184,120 +186,4 @@ int main(void)
     // print_graph(cores[4]);
 
     fclose(arq_entrada); // Fecha arquivo de entrada
-
-    // do
-    // {
-    //     printf("1 - Insere No; 2 - Remove No; 3 - Procura No; 4 - Imprime Grafo; 5 - Insere Aresta; 6 - Remove Aresta; 7 - Procura Aresta ; 8 - Fim\n");
-    //     scanf("%i", &opc);
-    //     switch (opc)
-    //     {
-    //     case 1:
-    //         printf("Numero do No: ");
-    //         scanf("%i", &chave);
-    //         node_insert(&head, allocate_graph(chave));
-    //         printf("\nInserido!\n");
-    //         break;
-    //     case 2:
-    //         printf("Valor: ");
-    //         scanf("%i", &chave);
-    //         aux = graph_search(head, chave);
-    //         if (aux != NULL)
-    //         {
-    //             node_delete(&head, aux);
-    //             free_graph(aux);
-    //             printf("\nRemovido!\n");
-    //         }
-    //         else
-    //             printf("\nValor nao encontrado!\n");
-    //         break;
-    //     case 3:
-    //         printf("Valor: ");
-    //         scanf("%i", &chave);
-    //         aux = graph_search(head, chave);
-    //         if (aux != NULL)
-    //             printf("\nValor encontrado!\n");
-    //         else
-    //             printf("\nValor nao encontrado!\n");
-    //         break;
-    //     case 4:
-    //         print_graph(head);
-    //         break;
-    //     case 5:
-    //         printf("Numero do No: ");
-    //         scanf("%i", &chave);
-    //         aux = graph_search(head, chave);
-    //         if (aux != NULL)
-    //         {
-    //             int chave2;
-    //             printf("Numero da aresta: ");
-    //             scanf("%i", &chave2);
-    //             list_insert(&aux->arestas, allocate_object(chave2));
-    //             aux = graph_search(head, chave2);
-    //             if (aux != NULL)
-    //             {
-    //                 list_insert(&aux->arestas, allocate_object(chave));
-    //             }
-    //             else
-    //             {
-    //                 printf("\nNo não encontrado.\n");
-    //             }
-    //             printf("\nInserido!\n");
-    //         }
-    //         else
-    //         {
-    //             printf("\nNo nao encontrado!\n");
-    //         }
-    //         break;
-    //     case 6:
-    //         printf("Numero do No: ");
-    //         scanf("%i", &chave);
-    //         aux = graph_search(head, chave);
-    //         if (aux != NULL)
-    //         {
-    //             printf("Numero da aresta: ");
-    //             scanf("%i", &chave);
-    //             aux2 = list_search(aux->arestas, chave);
-    //             if (aux2 != NULL)
-    //             {
-    //                 list_delete(&aux->arestas, aux2);
-    //                 free_object(aux2);
-    //                 printf("\nRemovido!\n");
-    //             }
-    //             else
-    //             {
-    //                 printf("\nAresta nao encontrada!\n");
-    //             }
-    //         }
-    //         else
-    //             printf("\nNo nao encontrado!\n");
-    //         break;
-    //     case 7:
-    //         printf("Numero do No: ");
-    //         scanf("%i", &chave);
-    //         aux = graph_search(head, chave);
-    //         if (aux != NULL)
-    //         {
-    //             printf("Numero da aresta: ");
-    //             scanf("%i", &chave);
-    //             aux2 = list_search(aux->arestas, chave);
-    //             if (aux2 != NULL)
-    //             {
-    //                 printf("\nAresta encontrada!\n");
-    //             }
-    //             else
-    //             {
-    //                 printf("\nAresta nao encontrada!\n");
-    //             }
-    //         }
-    //         else
-    //             printf("\nNo nao encontrado!\n");
-    //         break;
-    //     case 8:
-    //         printf("\nFim!\n\n");
-    //         break;
-    //     default:
-    //         printf("\nOpcao Invalida!\n");
-    //         break;
-    //     }
-    // } while (opc != 8);
 }
