@@ -215,7 +215,7 @@ int main(void)
 
     // Exibindo o número de cores utilizadas
     printf("\nColoração:");
-    printf("\nNúmero de cores utilizadas (aproximadamente): %d\n", numero_de_cores);
+    printf("\nNúmero aproximado de cores necessárias: %d\n", numero_de_cores);
 
     free(vet);           // Libera memória alocada para vetor de nós
     free_graph(head);    // Libera memória alocada para grafo
