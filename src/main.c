@@ -5,6 +5,8 @@
 
 FILE *arq_entrada;
 
+// Adaptação do Merge Sort visto em aula
+// para ordenar os nós em ordem não crescente em relação ao grau
 void merge(grafo *v, int p, int q, int r)
 {
     int m = q - p + 1,
@@ -47,6 +49,19 @@ void merge_sort(grafo *v, int p, int r)
     }
 }
 
+// Preenchendo vetor auxiliar
+void preenche_vetor(grafo *head, grafo *vet)
+{
+    grafo *aux = head;
+    int i = 0;
+    while (aux != NULL)
+    {
+        vet[i] = *aux;
+        aux = aux->next;
+        i++;
+    }
+}
+
 int contando_cores(grafo **cores, int nodes)
 {
     int quantidade = 0;
@@ -58,84 +73,24 @@ int contando_cores(grafo **cores, int nodes)
     return quantidade;
 }
 
-int main(void)
+int coloracao(int nodes, grafo *vet)
 {
-    grafo *head = NULL, *aux = NULL;
+    int n_de_cores = 0;
+    grafo *aux = NULL;
     list *aux2 = NULL;
+    // Ordena vetor de nós em ordem não crescente em relação ao grau
+    merge_sort(vet, 0, nodes - 1);
 
-    int nodes, edges;    // Variáveis utilizadas para armazenar número de nós e arestas
-    int orig, dest;      // Variáveis utilizadas para armazenar nós de origem e destino
-    int numero_de_cores; // Variável utilizada para exibir o número de cores utilizadas
-    grafo *vet;          // Um vetor auxiliar para armazenar os nós
+    grafo *cores[nodes]; // Definindo vetor de cores
 
-    arq_entrada = fopen("entrada.txt", "r"); // Abre arquivo de entrada
-
-    // Verifica se o arquivo foi aberto corretamente
-    if (arq_entrada == NULL)
-    {
-        printf("Um erro ocorreu ao tentar abrir o arquivo 'grafo.txt'.\n");
-        exit(1); // Encerra o programa
-    }
-
-    fscanf(arq_entrada, "%d", &nodes); // Lê número de nós
-    printf("Número de nós: %d\n", nodes);
-
-    // Construção do grafo
-
-    // Inserindo nós
-    for (int i = 1; i <= nodes; i++)
-        node_insert(&head, allocate_graph(i));
-
-    fscanf(arq_entrada, "%d", &edges); // Lê número de arestas
-    printf("Número de arestas: %d\n", edges);
-
-    // Inserindo arestas
-    for (int i = 1; i <= edges; i++)
-    {
-        fscanf(arq_entrada, "%d %d", &orig, &dest); // Lê origem e destino
-        aux = graph_search(head, orig);
-        if (aux != NULL)
-        {
-            list_insert(&aux->arestas, allocate_object(dest));
-            aux = graph_search(head, dest);
-            if (aux != NULL)
-                list_insert(&aux->arestas, allocate_object(orig));
-        }
-    }
-
-    calcula_grau(&head); // Calcula grau dos nós
-
-    printf("Grafo com grau:\n");
-    print_graph(head);
-
-    vet = (grafo *)malloc(nodes * sizeof(grafo)); // Aloca vetor de nós
-
-    // Preenche vetor de nós
-    int i = 0;
-    aux = head;
-    while (aux != NULL)
-    {
-        vet[i] = *aux;
-        aux = aux->next;
-        i++;
-    }
-
-    // Daqui em diante temos o algoritmo para a coloração do grafo
-
-    merge_sort(vet, 0, nodes - 1); // Ordena vetor de nós em ordem não crescente em relação ao grau
-
-    // printf("Vetor de nós ordenado por grau:\n");
-
-    // for (int i = 0; i < nodes; i++)
-    //     printf("No: %i \n\t\t Grau: %d\n", vet[i].key, vet[i].grau);
-
-    grafo *cores[nodes]; // Vetor de cores
-
+    // Inicializando vetor de cores
     for (int i = 0; i < nodes; i++)
         cores[i] = NULL;
 
-    node_insert(&cores[0], allocate_graph(vet[0].key)); // Insere primeiro nó no vetor de cores
+    // Colorindo o primeiro nó com a primeira cor
+    node_insert(&cores[0], allocate_graph(vet[0].key));
 
+    // Colorindo os demais nós
     int j = 1;
     while (j < nodes)
     {
@@ -176,21 +131,75 @@ int main(void)
         }
     }
 
-    // Contagem de cores utilizadas
-    numero_de_cores = contando_cores(cores, nodes);
+    n_de_cores = contando_cores(cores, nodes);
 
+    for (int i = 0; i < nodes; i++)
+        free_graph(cores[i]);
+
+    return n_de_cores;
+}
+
+int main(void)
+{
+    grafo *head = NULL, *aux = NULL;
+    list *aux2 = NULL;
+
+    int nodes, edges;    // Variáveis utilizadas para armazenar número de nós e arestas
+    int orig, dest;      // Variáveis utilizadas para armazenar nós de origem e destino
+    int numero_de_cores; // Variável utilizada para exibir o número de cores utilizadas
+    grafo *vet;          // Um vetor auxiliar para armazenar os nós e ordená-los em relação ao grau
+
+    arq_entrada = fopen("entrada.txt", "r"); // Abre arquivo 'entrada.txt' para leitura
+
+    // Verifica se o arquivo foi aberto corretamente
+    if (arq_entrada == NULL)
+    {
+        printf("Um erro ocorreu ao tentar abrir o arquivo 'grafo.txt'.\n");
+        exit(1); // Encerra o programa
+    }
+
+    fscanf(arq_entrada, "%d", &nodes); // Lê número de nós
+    printf("Número de nós: %d\n", nodes);
+
+    fscanf(arq_entrada, "%d", &edges); // Lê número de arestas
+    printf("Número de arestas: %d\n", edges);
+
+    // Construção do grafo
+
+    // Inserindo nós
+    for (int i = 1; i <= nodes; i++)
+        node_insert(&head, allocate_graph(i));
+
+    // Inserindo arestas
+    for (int i = 1; i <= edges; i++)
+    {
+        fscanf(arq_entrada, "%d %d", &orig, &dest); // Lê origem e destino
+        aux = graph_search(head, orig);
+        if (aux != NULL)
+        {
+            list_insert(&aux->arestas, allocate_object(dest));
+            aux = graph_search(head, dest);
+            if (aux != NULL)
+                list_insert(&aux->arestas, allocate_object(orig));
+        }
+    }
+
+    // Função para calcular o grau dos nós
+    calcula_grau(&head);
+
+    // Definindo um vetor auxiliar para armazenar os nós
+    vet = (grafo *)malloc(nodes * sizeof(grafo)); // Aloca vetor de nós
+
+    // Preenchendo vetor auxiliar
+    preenche_vetor(head, vet);
+
+    // Algoritmo para a coloração do grafo e contagem de cores utilizadas
+    numero_de_cores = coloracao(nodes, vet);
+
+    // Exibindo o número de cores utilizadas
     printf("\nNúmero de cores utilizadas (aproximadamente): %d\n", numero_de_cores);
 
-    // printf("Cor 1:\n");
-    // print_graph(cores[0]);
-    // printf("Cor 2:\n");
-    // print_graph(cores[1]);
-    // printf("Cor 3:\n");
-    // print_graph(cores[2]);
-    // printf("Cor 4:\n");
-    // print_graph(cores[3]);
-    // printf("Cor 5:\n");
-    // print_graph(cores[4]);
-
+    free(vet);           // Libera memória alocada para vetor de nós
+    free_graph(head);    // Libera memória alocada para grafo
     fclose(arq_entrada); // Fecha arquivo de entrada
 }
