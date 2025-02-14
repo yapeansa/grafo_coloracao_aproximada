@@ -111,13 +111,15 @@ int coloracao(int nodes, grafo *vet)
     int j = 1;
     while (j < nodes)
     {
-        aux2 = vet[j].arestas;
+        aux2 = vet[j].arestas; // Lista de adjacência do nó
         int r;
 
+        // Percorre as cores
         int i = 0;
         while (i < nodes)
         {
             aux = cores[i];
+            // Se a cor estiver vazia, insere o nó
             if (cores[i] == NULL)
             {
                 r = i;
@@ -126,10 +128,12 @@ int coloracao(int nodes, grafo *vet)
                 i++;
                 break;
             }
+            // Senão, verifica se o nó adjacente é igual a algum nó da cor
             else
             {
                 while (aux != NULL)
                 {
+                    // Se for adjacente a algum nó da cor, passa para a próxima cor
                     if (list_search(aux2, aux->key) != NULL)
                     {
                         i++;
@@ -137,6 +141,7 @@ int coloracao(int nodes, grafo *vet)
                     }
                     aux = aux->next;
                 }
+                // Se não for adjacente a nenhum nó da cor, insere o nó
                 if (aux == NULL)
                 {
                     r = i;
