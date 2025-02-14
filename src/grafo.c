@@ -29,16 +29,16 @@ list *list_search(list *L, int k)
     return x;
 }
 
-void print_list(list *L)
-{
-    list *x = L;
-    while (x != NULL)
-    {
-        printf("%i -> ", x->key);
-        x = x->next;
-    }
-    printf("\n");
-}
+// void print_list(list *L)
+// {
+//     list *x = L;
+//     while (x != NULL)
+//     {
+//         printf("%i -> ", x->key);
+//         x = x->next;
+//     }
+//     printf("\n");
+// }
 
 list *allocate_object(int k)
 {
@@ -71,15 +71,15 @@ void node_insert(grafo **G, grafo *x)
     x->prev = NULL;
 }
 
-void node_delete(grafo **G, grafo *x)
-{
-    if (x->prev != NULL)
-        x->prev->next = x->next;
-    else
-        *G = x->next;
-    if (x->next != NULL)
-        x->next->prev = x->prev;
-}
+// void node_delete(grafo **G, grafo *x)
+// {
+//     if (x->prev != NULL)
+//         x->prev->next = x->next;
+//     else
+//         *G = x->next;
+//     if (x->next != NULL)
+//         x->next->prev = x->prev;
+// }
 
 grafo *allocate_graph(int k)
 {

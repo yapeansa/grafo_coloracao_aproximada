@@ -47,16 +47,26 @@ void merge_sort(grafo *v, int p, int r)
     }
 }
 
+int contando_cores(grafo **cores, int nodes)
+{
+    int quantidade = 0;
+
+    for (int i = 0; i < nodes; i++)
+        if (cores[i] != NULL)
+            quantidade++;
+
+    return quantidade;
+}
+
 int main(void)
 {
-    int opc, chave;
     grafo *head = NULL, *aux = NULL;
     list *aux2 = NULL;
 
-    int nos, arestas;
-    int orig, dest;
-    int contador = 0;
-    grafo *vet;
+    int nodes, edges;    // Variáveis utilizadas para armazenar número de nós e arestas
+    int orig, dest;      // Variáveis utilizadas para armazenar nós de origem e destino
+    int numero_de_cores; // Variável utilizada para exibir o número de cores utilizadas
+    grafo *vet;          // Um vetor auxiliar para armazenar os nós
 
     arq_entrada = fopen("entrada.txt", "r"); // Abre arquivo de entrada
 
@@ -67,18 +77,20 @@ int main(void)
         exit(1); // Encerra o programa
     }
 
-    fscanf(arq_entrada, "%d", &nos); // Lê número de nós
-    printf("Número de nós: %d\n", nos);
+    fscanf(arq_entrada, "%d", &nodes); // Lê número de nós
+    printf("Número de nós: %d\n", nodes);
 
-    // Lê nós
-    for (int i = 1; i <= nos; i++)
+    // Construção do grafo
+
+    // Inserindo nós
+    for (int i = 1; i <= nodes; i++)
         node_insert(&head, allocate_graph(i));
 
-    fscanf(arq_entrada, "%d", &arestas); // Lê número de arestas
-    printf("Número de arestas: %d\n", arestas);
+    fscanf(arq_entrada, "%d", &edges); // Lê número de arestas
+    printf("Número de arestas: %d\n", edges);
 
-    // Lê arestas
-    for (int i = 1; i <= arestas; i++)
+    // Inserindo arestas
+    for (int i = 1; i <= edges; i++)
     {
         fscanf(arq_entrada, "%d %d", &orig, &dest); // Lê origem e destino
         aux = graph_search(head, orig);
@@ -91,15 +103,12 @@ int main(void)
         }
     }
 
-    // printf("Grafo:\n");
-    // print_graph(head);
-
     calcula_grau(&head); // Calcula grau dos nós
 
-    // printf("Grafo com grau:\n");
-    // print_graph(head);
+    printf("Grafo com grau:\n");
+    print_graph(head);
 
-    vet = (grafo *)malloc(nos * sizeof(grafo)); // Aloca vetor de nós
+    vet = (grafo *)malloc(nodes * sizeof(grafo)); // Aloca vetor de nós
 
     // Preenche vetor de nós
     int i = 0;
@@ -113,28 +122,28 @@ int main(void)
 
     // Daqui em diante temos o algoritmo para a coloração do grafo
 
-    merge_sort(vet, 0, nos - 1); // Ordena vetor de nós em ordem não crescente em relação ao grau
+    merge_sort(vet, 0, nodes - 1); // Ordena vetor de nós em ordem não crescente em relação ao grau
 
-    printf("Vetor de nós ordenado por grau:\n");
+    // printf("Vetor de nós ordenado por grau:\n");
 
-    for (int i = 0; i < nos; i++)
-        printf("No: %i \n\t\t Grau: %d\n", vet[i].key, vet[i].grau);
+    // for (int i = 0; i < nodes; i++)
+    //     printf("No: %i \n\t\t Grau: %d\n", vet[i].key, vet[i].grau);
 
-    grafo *cores[nos]; // Vetor de cores
+    grafo *cores[nodes]; // Vetor de cores
 
-    for (int i = 0; i < nos; i++)
+    for (int i = 0; i < nodes; i++)
         cores[i] = NULL;
 
     node_insert(&cores[0], allocate_graph(vet[0].key)); // Insere primeiro nó no vetor de cores
 
     int j = 1;
-    while (j < nos)
+    while (j < nodes)
     {
         aux2 = vet[j].arestas;
         int r;
 
         int i = 0;
-        while (i < nos)
+        while (i < nodes)
         {
             aux = cores[i];
             if (cores[i] == NULL)
@@ -165,14 +174,12 @@ int main(void)
                 }
             }
         }
-        // ...
     }
 
-    for (int i = 0; i < nos; i++)
-        if (cores[i] != NULL)
-            contador++;
+    // Contagem de cores utilizadas
+    numero_de_cores = contando_cores(cores, nodes);
 
-    printf("\nNúmero de cores aproximadamente utilizada: %d\n", contador);
+    printf("\nNúmero de cores utilizadas (aproximadamente): %d\n", numero_de_cores);
 
     // printf("Cor 1:\n");
     // print_graph(cores[0]);
