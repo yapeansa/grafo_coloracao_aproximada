@@ -4,7 +4,7 @@
 
 ### k-coloração
 
-Sejam $G(N,A)$ um grafo e $C$ um conjunto de cores. Seja $LA(v) = \\{i \in \mathbb\\,\mid\\,i \text{é adjacente ao nó }v\\}$ (lista de adjacência). Uma coloração de $G$ é uma atribuição de alguma cor de $C$ para cada vértice de $G$ de tal modo que a dois vértices adjacentes sejam atribuídas cores diferentes. Diz-se que $G$ é $k$-colorível se os vértices de $G$ podem ser coloridos com $k$ cores.
+Sejam $G(N,A)$ um grafo e $C$ um conjunto de cores. Seja $LA(v) = \\{i \in \mathbb{N}\\,\mid\\,i \text{ é adjacente ao nó }v\\}$ (lista de adjacência). Uma coloração de $G$ é uma atribuição de alguma cor de $C$ para cada vértice de $G$ de tal modo que a dois vértices adjacentes sejam atribuídas cores diferentes. Diz-se que $G$ é $k$-colorível se os vértices de $G$ podem ser coloridos com $k$ cores.
 
 ### Número cromático do grafo G
 
@@ -20,5 +20,5 @@ Dado um grafo $G(N,A)$, encontrar o seu número cromático $x(G)$ é uma tarefa 
 - $C_1 = C_2 = \ldots = C_n = \emptyset$.
 - Colorir $v_1$ com a cor $1$; incluir $v_1$ em $C_1$.
 - Para $j = 2, \ldots, n$ efetuar
-    - $r = \min\\{i \mid A(v_j)\\,\cap\\,C_{i}=\emptyset\\}$.
+    - $r = \min\\{i \mid LA(v_j)\\,\cap\\,C_{i}=\emptyset\\}$.
     - Colorir $v_{j}$ com a cor $r$; incluir $v_{j}$ em $C_{r}$.
