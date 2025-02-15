@@ -1,5 +1,5 @@
 TARGET = main
-SRC = main.c grafo.c
+SRC = main.c grafo.c coloracao.c
 CC = gcc
 RM = rm -rf
 

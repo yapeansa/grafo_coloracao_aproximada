@@ -120,3 +120,20 @@ void print_graph(grafo *g)
         auxg = auxg->next;
     }
 }
+
+void calcula_grau(grafo **G)
+{
+    grafo *auxg = *G;
+    while (auxg != NULL)
+    {
+        int grau = 0;
+        list *auxl = auxg->arestas;
+        while (auxl != NULL)
+        {
+            grau++;
+            auxl = auxl->next;
+        }
+        auxg->grau = grau;
+        auxg = auxg->next;
+    }
+}

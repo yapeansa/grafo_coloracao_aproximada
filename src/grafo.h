@@ -1,5 +1,5 @@
-#ifndef GRAFO
-#define GRAFO
+#ifndef GRAFO_H
+#define GRAFO_H
 
 typedef struct lista_duplamente_encadeada
 {
@@ -29,5 +29,6 @@ void node_delete(grafo **G, grafo *x);
 grafo *allocate_graph(int k); // Aloca nó
 void free_graph(grafo *x); // Libera memória alocada para nó
 void print_graph(grafo *g); // Imprime grafo
+void calcula_grau(grafo **G); // Calcula grau dos nós
 
 #endif
