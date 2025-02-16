@@ -66,7 +66,7 @@ int main(void)
     // Função para calcular o grau dos nós
     calcula_grau(&head);
 
-    printf("Grafo:\n\n");
+    printf("\nGrafo:\n\n");
     print_graph(head); // Imprime grafo
 
     // Definindo um vetor auxiliar para armazenar os nós
