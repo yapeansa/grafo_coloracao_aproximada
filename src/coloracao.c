@@ -93,7 +93,6 @@ int coloracao(int nodes, grafo *vet)
                 r = i;
                 node_insert(&cores[r], allocate_graph(vet[j].key));
                 j++;
-                i++;
                 break;
             }
             // Senão, verifica se o nó adjacente é igual a algum nó da cor
