@@ -3,6 +3,19 @@
 #include "coloracao.h"
 #include "grafo.h"
 
+// Preenchendo vetor auxiliar
+void preenche_vetor(grafo *head, grafo *vet)
+{
+    grafo *aux = head;
+    int i = 0;
+    while (aux != NULL)
+    {
+        vet[i] = *aux;
+        aux = aux->next;
+        i++;
+    }
+}
+
 // Adaptação do Merge Sort visto em aula
 // para ordenar os nós em ordem não crescente em relação ao grau
 void merge(grafo *v, int p, int q, int r)

@@ -5,19 +5,6 @@
 
 FILE *arq_entrada; // Ponteiro para arquivo de entrada
 
-// Preenchendo vetor auxiliar
-void preenche_vetor(grafo *head, grafo *vet)
-{
-    grafo *aux = head;
-    int i = 0;
-    while (aux != NULL)
-    {
-        vet[i] = *aux;
-        aux = aux->next;
-        i++;
-    }
-}
-
 int main(void)
 {
     grafo *head = NULL, *aux = NULL;
